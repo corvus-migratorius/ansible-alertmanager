@@ -1,11 +1,11 @@
 ---
-- name: "Create AlertManager system group"
+- name: "Create Alertmanager system group"
   ansible.builtin.group:
     name: "{{ alertmanager_user }}"
     system: true
     state: present
 
-- name: "Create AlertManager system user"
+- name: "Create Alertmanager system user"
   ansible.builtin.user:
     name: "{{ alertmanager_user }}"
     group: "{{ alertmanager_group }}"
@@ -14,9 +14,9 @@
     create_home: false
     state: present
 
-- name: "Install AleertManager from binary"
+- name: "Install Alertmanager from binary"
   block:
-    - name: "Check AlertManager version"
+    - name: "Check Alertmanager version"
       changed_when: false
       ansible.builtin.command:
         cmd: "alertmanager --version"
@@ -29,42 +29,42 @@
         fail_msg: "alertmanager version {{ alertmanager_version }} is not installed or not working correctly"
 
   rescue:
-    - name: "Create prometheus directories {{ item }}"
+    - name: "Create Alertmanager directories {{ item }}"
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        owner: "{{ prometheus_user }}"
-        group: "{{ prometheus_group }}"
+        owner: "{{ alertmanager_user }}"
+        group: "{{ alertmanager_group }}"
         mode: "0755"
       with_items:
         - "{{ config_dir }}"
-        - "{{ prometheus_dir }}"
-        - "{{ db_dir }}"
+        - "{{ alertmanager_dir }}"
+        - "{{ storage_dir }}"
 
-    - name: "Download Prometheus binary"
+    - name: "Download Alertmanager binary"
       ansible.builtin.get_url:
         url: "https://github.com/prometheus/alertmanager/releases/download/v{{ alertmanager_version }}/\
               alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz"
-        dest: "/tmp/prometheus-{{ alertmanager_version }}.linux-amd64.tar.gz"
+        dest: "/tmp/alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz"
         owner: "{{ alertmanager_user }}"
         group: "{{ alertmanager_group }}"
         mode: "0644"
 
-    - name: "Unpack Prometheus binaries"
+    - name: "Unpack Alertmanager binaries"
       ansible.builtin.unarchive:
-        src: "/tmp/prometheus-{{ alertmanager_version }}.linux-amd64.tar.gz"
+        src: "/tmp/alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz"
         dest: "{{ alertmanager_dir }}"
-        creates: "{{ alertmanager_dir }}/prometheus-{{ alertmanager_version }}.linux-amd64"
+        creates: "{{ alertmanager_dir }}/alertmanager-{{ alertmanager_version }}.linux-amd64"
         remote_src: true
 
     - name: "Cleanup downloaded file"
       ansible.builtin.file:
-        path: "/tmp/prometheus-{{ alertmanager_version }}.linux-amd64.tar.gz"
+        path: "/tmp/alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz"
         state: absent
 
     - name: "Move official alertmanager and amtool binaries"
       ansible.builtin.copy:
-        src: "{{ alertmanager_dir }}/prometheus-{{ alertmanager_dir }}.linux-amd64/{{ item }}"
+        src: "{{ alertmanager_dir }}/alertmanager-{{ alertmanager_version }}.linux-amd64/{{ item }}"
         dest: "/usr/local/bin/{{ item }}"
         mode: "0755"
         owner: "{{ alertmanager_user }}"
@@ -90,7 +90,7 @@
         group: "{{ alertmanager_group }}"
         mode: "0660"
 
-    - name: "Make sure that the alertmanager are enabled and started"
+    - name: "Make sure that the alertmanager service is enabled and started"
       become: true
       ansible.builtin.systemd:
         name: alertmanager.service

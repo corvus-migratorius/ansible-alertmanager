@@ -7,8 +7,8 @@ User={{ alertmanager_user }}
 Group={{ alertmanager_group }}
 Type=simple
 ExecStart=/usr/local/bin/alertmanager \
-          --config.file={{ config_dir }}alertmanager.yml \
-          --storage.path={{ storage_dir }} \
+          --config.file={{ config_dir }}/alertmanager.yml \
+          --storage.path={{ storage_dir }}
 Restart=on-failure
  
 # Security hardening

@@ -18,23 +18,9 @@ route:
   # You can have nested 'routes' for more complex routing logic 
 
 receivers:
-- name: 'default-receiver'
-  email_configs:
-    to: 'ops-team@example.com' 
-    # ... other email settings ...
-
-- name: 'slack-notifications'
-  slack_configs:
-    api_url: 'https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'
-    channel: '#alerts'
-    # ... other Slack settings ...
-
-- name: 'pagerduty-notifications'
-  pagerduty_configs:
-    service_key: 'your_pagerduty_service_key'
-    # ... other PagerDuty settings ...
-
-# ... more receivers as needed (webhooks, OpsGenie, etc.)
+  - name: 'default-receiver'
+    email_configs:
+      - to: 'ops-team@example.com' 
 
 inhibit_rules:
   # Rules to suppress alerts based on other alerts
