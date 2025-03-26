@@ -38,7 +38,7 @@
         success_msg: "Alertmanager is healthy"
         fail_msg: "Alertmanager is not healthy"
 
-        # kics-scan ignore-block
+    # kics-scan ignore-block
     - name: "Check if Alertmanager is ready"
       ansible.builtin.uri:
         url: "http://localhost:9093/-/ready"
