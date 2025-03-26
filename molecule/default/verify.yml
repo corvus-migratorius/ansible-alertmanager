@@ -34,6 +34,22 @@
 
     - name: "Debug Alertmanager health status"
       ansible.builtin.assert:
-        that: "alertmanager_health.content | trim == 'OK'"
+        that: "alertmanager_health.content == 'OK'"
         success_msg: "Alertmanager is healthy"
         fail_msg: "Alertmanager is not healthy"
+
+        # kics-scan ignore-block
+    - name: "Check if Alertmanager is ready"
+      ansible.builtin.uri:
+        url: "http://localhost:9093/-/ready"
+        return_content: true
+        status_code: 200
+        method: GET
+        body_format: json
+      register: alertmanager_ready
+
+    - name: "Debug Alertmanager readiness status"
+      ansible.builtin.assert:
+        that: "alertmanager_ready.content == 'OK'"
+        success_msg: "Alertmanager is ready"
+        fail_msg: "Alertmanager is not ready"
