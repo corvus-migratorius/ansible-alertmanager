@@ -24,7 +24,7 @@
 
     - name: "Assert version correctness"
       ansible.builtin.assert:
-        that: "alertmanager.stdout is regex('{{ alertmanager_version }}')"
+        that: "alertmanager_ver.stdout is regex('{{ alertmanager_version }}')"
         success_msg: "alertmanager version {{ alertmanager_version }} is installed and working"
         fail_msg: "alertmanager version {{ alertmanager_version }} is not installed or not working correctly"
 
