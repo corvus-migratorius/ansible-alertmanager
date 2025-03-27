@@ -42,7 +42,6 @@
         - "{{ storage_dir }}"
 
     - name: "Download Alertmanager binary"
-      notify: "(Re)start and enable Alertmanager"
       ansible.builtin.get_url:
         url: "https://github.com/prometheus/alertmanager/releases/download/v{{ alertmanager_version }}/\
               alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz"
@@ -52,6 +51,7 @@
         mode: "0644"
 
     - name: "Unpack Alertmanager binaries"
+      notify: "(Re)start and enable Alertmanager"
       ansible.builtin.unarchive:
         src: "/tmp/alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz"
         dest: "{{ alertmanager_dir }}"
