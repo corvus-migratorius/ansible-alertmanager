@@ -3,4 +3,4 @@
   hosts: all
   roles:
     - role: genlab.alertmanager
-      config_source_dir: molecule/default
+      config_source_dir: alertmanager
