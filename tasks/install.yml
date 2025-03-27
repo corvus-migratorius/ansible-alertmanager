@@ -42,6 +42,7 @@
         - "{{ storage_dir }}"
 
     - name: "Download Alertmanager binary"
+      notify: "(Re)start and enable Alertmanager"
       ansible.builtin.get_url:
         url: "https://github.com/prometheus/alertmanager/releases/download/v{{ alertmanager_version }}/\
               alertmanager-{{ alertmanager_version }}.linux-amd64.tar.gz"
@@ -108,3 +109,6 @@
         state: started
         enabled: true
         daemon_reload: true
+
+- name: "Flush handlers"
+  ansible.builtin.meta: "flush_handlers"
