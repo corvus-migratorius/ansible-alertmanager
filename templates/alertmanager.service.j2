@@ -1,7 +1,8 @@
 [Unit]
 Description=Alertmanager Service
 After=network.target
- 
+Documentation="https://prometheus.io/docs/alerting/latest/alertmanager/"
+
 [Service]
 User={{ alertmanager_user }}
 Group={{ alertmanager_group }}
@@ -12,6 +13,7 @@ ExecStart=/usr/local/bin/alertmanager \
 Restart=on-failure
  
 # Security hardening
+ReadWritePaths={{ storage_dir }}
 ProtectSystem=strict
 NoNewPrivileges=true
 PrivateTmp=true
