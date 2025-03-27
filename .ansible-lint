@@ -14,4 +14,4 @@ warn_list:
 
 exclude_paths:
   - .github/
-  - molecule/default/alertmanager.yml
+  - molecule/default/alertmanager/alertmanager.yml
