@@ -9,8 +9,6 @@ platforms:
   - name: ubuntu
     image: geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2404}-ansible:latest
     pre_build_image: true
-    published_ports:
-      - 127.0.0.1:9094:9093
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
