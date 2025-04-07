@@ -32,7 +32,7 @@
         body_format: json
       register: alertmanager_health
 
-    - name: "Debug Alertmanager health status"
+    - name: "Assert Alertmanager health status"
       ansible.builtin.assert:
         that: "alertmanager_health.content == 'OK'"
         success_msg: "Alertmanager is healthy"
@@ -48,7 +48,7 @@
         body_format: json
       register: alertmanager_ready
 
-    - name: "Debug Alertmanager readiness status"
+    - name: "Assert Alertmanager readiness status"
       ansible.builtin.assert:
         that: "alertmanager_ready.content == 'OK'"
         success_msg: "Alertmanager is ready"
