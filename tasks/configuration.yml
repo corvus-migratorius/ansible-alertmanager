@@ -2,7 +2,7 @@
 
 - name: "Copy config file"
   notify: "(Re)start and enable Alertmanager"
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: "{{ item }}"
     dest: "{{ config_dir }}/{{ item | basename }}"
     owner: "{{ alertmanager_user }}"
